@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
 import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
+import { WebsocketProvider } from 'y-websocket';
 import { ySyncPlugin, yCursorPlugin, yUndoPlugin, undo, redo } from '../src/y-prosemirror.js'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
@@ -11,7 +11,7 @@ import { keymap } from 'prosemirror-keymap'
 
 window.addEventListener('load', () => {
   const ydoc = new Y.Doc()
-  const provider = new WebrtcProvider('prosemirror-debug', ydoc)
+  const provider = new WebsocketProvider('ws://collaboration.lyearn.com:8083', 'my-roomname', ydoc)
   const type = ydoc.getXmlFragment('prosemirror')
 
   const editor = document.createElement('div')
