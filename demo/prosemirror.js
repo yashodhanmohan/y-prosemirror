@@ -2,7 +2,7 @@
 
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket';
-import { ySyncPlugin, yCursorPlugin, yUndoPlugin, undo, redo } from '../src/y-prosemirror.js'
+import { ySyncPlugin, yCursorPlugin, yUndoPlugin, updatePublishPlugin, undo, redo } from '../src/y-prosemirror.js'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { schema } from './schema.js'
@@ -11,7 +11,7 @@ import { keymap } from 'prosemirror-keymap'
 
 window.addEventListener('load', () => {
   const ydoc = new Y.Doc()
-  const provider = new WebsocketProvider('ws://collaboration.lyearn.com:8083', 'my-roomname', ydoc)
+  const provider = new WebsocketProvider('ws://localhost:8083', 'my-roomname-2', ydoc)
   const type = ydoc.getXmlFragment('prosemirror')
 
   const editor = document.createElement('div')
@@ -22,6 +22,7 @@ window.addEventListener('load', () => {
     state: EditorState.create({
       schema,
       plugins: [
+        updatePublishPlugin,
         ySyncPlugin(type),
         yCursorPlugin(provider.awareness),
         yUndoPlugin(),
