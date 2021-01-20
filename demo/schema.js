@@ -22,7 +22,7 @@ export const nodes = {
   // :: NodeSpec A plain paragraph textblock. Represented in the DOM
   // as a `<p>` element.
   paragraph: {
-    attrs: { ychange: { default: null } },
+    attrs: { ychange: { default: null }, id: { default: null } },
     content: 'inline*',
     group: 'block',
     parseDOM: [{ tag: 'p' }],

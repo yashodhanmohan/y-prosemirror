@@ -1,15 +1,24 @@
 import { Plugin } from 'prosemirror-state' // eslint-disable-line
-import { ySyncPluginKey } from './keys';
+import { v4 as uuidv4 } from 'uuid';
 
 export const updatePublishPlugin = new Plugin({
-  filterTransaction(transaction, state) {
-    const change = transaction.getMeta(ySyncPluginKey);
-    if(change === undefined || change.isChangeOrigin === false) {
-      let steps = transaction.steps;
-      for(let step of steps) {
-        console.log((transaction.time, " ", JSON.stringify(step.toJSON()));
+  appendTransaction: (transactions, prevState, nextState) => {
+    const tr = nextState.tr;
+    let modified = false;
+
+    transactions.forEach(transaction => {
+      transaction.steps.forEach(step => {
+        console.log('Step: ', nextState.doc.nodeAt(step.from));
+      })
+    })
+
+    nextState.doc.descendants((node, pos, parent) => {
+      if(node.attrs.id === null && !node.type.isText) {
+        modified = true;
+        tr.setNodeMarkup(pos, node.type, { ...node.attrs, id: uuidv4() });
       }
-    }
-    return true;
+    })
+
+    return modified ? tr : null;
   }
 });
