@@ -6,18 +6,20 @@ export const updatePublishPlugin = new Plugin({
     const tr = nextState.tr;
     let modified = false;
 
-    transactions.forEach(transaction => {
-      transaction.steps.forEach(step => {
-        console.log('Step: ', nextState.doc.nodeAt(step.from));
-      })
-    })
-
+    console.group()
     nextState.doc.descendants((node, pos, parent) => {
-      if(node.attrs.id === null && !node.type.isText) {
+      console.group()
+      console.log((node));
+      console.log((node.attrs));
+      console.log((node.attrs.id));
+      console.log((node.type));
+      if(!node.attrs.id && !node.type.isText) {
         modified = true;
         tr.setNodeMarkup(pos, node.type, { ...node.attrs, id: uuidv4() });
       }
+      console.groupEnd()
     })
+    console.groupEnd()
 
     return modified ? tr : null;
   }
