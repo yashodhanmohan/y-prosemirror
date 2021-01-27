@@ -2,7 +2,7 @@
 
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket';
-import { ySyncPlugin, yCursorPlugin, yUndoPlugin, updatePublishPlugin, undo, redo } from '../src/y-prosemirror.js'
+import { ySyncPlugin, yCursorPlugin, yUndoPlugin, uuidPlugin, undo, redo } from '../src/y-prosemirror.js'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { schema } from './schema.js'
@@ -22,7 +22,7 @@ window.addEventListener('load', () => {
     state: EditorState.create({
       schema,
       plugins: [
-        updatePublishPlugin,
+        uuidPlugin,
         ySyncPlugin(type),
         yCursorPlugin(provider.awareness),
         yUndoPlugin(),
